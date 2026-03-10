@@ -2,15 +2,23 @@ import { createBrowserClient } from '@supabase/ssr';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from './database.types';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-
 /**
  * Supabase client for browser/client-side usage
  * Uses the anon key - respects Row Level Security
+ * Env vars are read lazily to avoid build-time errors during static generation
  */
 export function createSupabaseBrowser() {
-  return createBrowserClient<Database>(supabaseUrl, supabaseAnonKey);
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!url || !anonKey) {
+    throw new Error(
+      'NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are required. ' +
+      'Set them in your environment variables.'
+    );
+  }
+
+  return createBrowserClient<Database>(url, anonKey);
 }
 
 /**
@@ -18,9 +26,10 @@ export function createSupabaseBrowser() {
  * Can optionally use service role key for admin operations
  */
 export function createServerSupabase(useServiceRole = false): SupabaseClient<Database> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const key = useServiceRole
     ? process.env.SUPABASE_SERVICE_ROLE_KEY!
-    : supabaseAnonKey;
+    : process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-  return createClient<Database>(supabaseUrl, key);
+  return createClient<Database>(url, key);
 }

@@ -12,6 +12,9 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// All pages use Supabase at runtime — disable static prerendering
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: "MonFrigo - Suivez vos aliments, réduisez le gaspillage",
   description: "Inventaire alimentaire intelligent : scannez, suivez et utilisez vos aliments avant qu'ils n'expirent.",
