@@ -227,6 +227,14 @@ export const fr = {
     checkedItems: '{count} acheté(s)',
     addPlaceholder: 'Ajouter un article...',
     add: 'Ajouter',
+    addMode: 'Ajouter des articles',
+    camera: 'Appareil photo',
+    cameraDesc: 'Scannez un ticket ou produit',
+    ai: 'Parler à l\'IA',
+    aiDesc: 'Dites ce qu\'il vous faut',
+    aiPlaceholder: 'Ex: "Il me faut du lait et des oeufs"',
+    done: 'Terminé',
+    itemsAdded: '{count} ajouté(s)',
   },
 
   // History
